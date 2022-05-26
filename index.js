@@ -5,9 +5,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 3000;
+var cors = require("cors"); //use this
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 // Total languages supported
 const supportedLanguages = ["java", "cpp", "py"];
