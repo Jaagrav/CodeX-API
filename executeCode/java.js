@@ -28,7 +28,7 @@ const runCode = async (codeFile, inputs) => {
         errorString += data.toString();
       });
       codeExec.on("exit", () => {
-        if (errorString) reject(errorString);
+        if (errorString && !outputString) reject(errorString);
         resolve(outputString);
       });
 
