@@ -7,6 +7,11 @@ const runCode = async (codeFile, inputs) => {
     const output = await new Promise((resolve, reject) => {
       const codeExec = spawn("java", [
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
+        "-XX:+UseContainerSupport" +
+          "-Xmx300m" +
+          "-Xss512k" +
+          "-XX:CICompilerCount=2" +
+          "-Dfile.encoding=UTF-8",
       ]);
       let outputString = "",
         errorString = "";
