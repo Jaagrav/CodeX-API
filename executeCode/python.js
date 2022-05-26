@@ -5,7 +5,7 @@ const runCode = async (codeFile, inputs) => {
   const timeout = 8;
   try {
     const output = await new Promise((resolve, reject) => {
-      const codeExec = spawn("java", [
+      const codeExec = spawn("python3", [
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
       ]);
       let outputString = "",
@@ -38,24 +38,24 @@ const runCode = async (codeFile, inputs) => {
       success: true,
       timestamp: new Date(),
       output,
-      language: "java",
-      version: "11.0.15",
+      language: "py",
+      version: "3.10.4",
     };
   } catch (error) {
     return {
       success: false,
       timestamp: new Date(),
       error,
-      language: "java",
-      version: "11.0.15",
+      language: "py",
+      version: "3.10.4",
     };
   }
 };
 
-const executeJava = async (codeFile, inputs) => {
+const executePython = async (codeFile, inputs) => {
   return await runCode(codeFile, inputs);
 };
 
 module.exports = {
-  executeJava,
+  executePython,
 };

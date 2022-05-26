@@ -1,5 +1,5 @@
 const { createCodeFile } = require("./createCodeFile");
-const { executeJava } = require("./executeCode");
+const { executeJava, executePython } = require("./executeCode");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -28,6 +28,9 @@ app.post("/", async (req, res) => {
   switch (language) {
     case "java":
       output = await executeJava(codeFile, input);
+      break;
+    case "py":
+      output = await executePython(codeFile, input);
       break;
   }
 
