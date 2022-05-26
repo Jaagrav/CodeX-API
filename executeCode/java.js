@@ -1,5 +1,9 @@
-const { spawn } = require("node:child_process"),
+const { spawn, exec } = require("node:child_process"),
   path = require("path");
+
+exec(`_SILENT_JAVA_OPTIONS="$_JAVA_OPTIONS"`);
+exec(`unset _JAVA_OPTIONS`);
+exec(`alias java='java "$_SILENT_JAVA_OPTIONS"'`);
 
 const runCode = async (codeFile, inputs) => {
   const timeout = 8;
@@ -7,11 +11,6 @@ const runCode = async (codeFile, inputs) => {
     const output = await new Promise((resolve, reject) => {
       const codeExec = spawn("java", [
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
-        "-XX:+UseContainerSupport" +
-          "-Xmx300m" +
-          "-Xss512k" +
-          "-XX:CICompilerCount=2" +
-          "-Dfile.encoding=UTF-8",
       ]);
       let outputString = "",
         errorString = "";
