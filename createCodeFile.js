@@ -9,7 +9,7 @@ const createCodeFile = (language, code) => {
   const jobID = getUUID(),
     fileName = `${jobID}.${language}`;
 
-  fs.writeFileSync(path.join(__dirname, `codes/${fileName}`), code);
+  fs.writeFileSync(path.join(__dirname, `codes/${fileName}`), code.toString());
 
   return fileName;
 };
