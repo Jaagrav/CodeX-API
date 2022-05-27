@@ -1,5 +1,5 @@
 const { createCodeFile } = require("./createCodeFile");
-const { executeJava, executePython } = require("./executeCode");
+const { executeJava, executePython, executeCPP } = require("./executeCode");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -22,8 +22,6 @@ app.post("/", async (req, res) => {
   if (!supportedLanguages.includes(language))
     output = `Language ${language} is not supported. Please refer to docs to know the supported languages.`;
 
-  console.log(code !== undefined, supportedLanguages.includes(language));
-
   if (code !== undefined && supportedLanguages.includes(language)) {
     const codeFile = createCodeFile(language, code);
 
@@ -33,6 +31,9 @@ app.post("/", async (req, res) => {
         break;
       case "py":
         output = await executePython(codeFile, input);
+        break;
+      case "cpp":
+        output = await executeCPP(codeFile, input);
         break;
     }
   }
