@@ -27,6 +27,7 @@ Whichever language you might mention in the language field, it would be automati
 |-----------|-----------------------|
 | Java | java |
 | Python | py |
+| C++ | cpp |
 
 More coming very soon!
 
