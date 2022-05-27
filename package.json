@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "node-gyp configure; node-gyp build "
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jaagrav Seal",
   "license": "ISC",

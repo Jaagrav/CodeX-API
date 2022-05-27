@@ -4,7 +4,7 @@ const { executeJava, executePython, executeCPP } = require("./executeCode");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 var cors = require("cors"); //use this
 
 app.use(bodyParser.json());

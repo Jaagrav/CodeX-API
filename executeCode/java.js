@@ -1,4 +1,4 @@
-const { spawn, exec } = require("node:child_process"),
+const { spawn, exec } = require("child_process"),
   path = require("path");
 
 // exec(`_SILENT_JAVA_OPTIONS="$_JAVA_OPTIONS"`);

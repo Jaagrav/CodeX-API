@@ -1,4 +1,4 @@
-const { spawn } = require("node:child_process"),
+const { spawn } = require("child_process"),
   path = require("path");
 
 const runCode = async (codeFile, inputs) => {
