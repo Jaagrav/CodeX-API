@@ -22,7 +22,9 @@ app.post("/", async (req, res) => {
   if (!supportedLanguages.includes(language))
     output = `Language ${language} is not supported. Please refer to docs to know the supported languages.`;
 
-  if (code !== undefined && supportedLanguages.includes(code)) {
+  console.log(code !== undefined, supportedLanguages.includes(language));
+
+  if (code !== undefined && supportedLanguages.includes(language)) {
     const codeFile = createCodeFile(language, code);
 
     switch (language) {
