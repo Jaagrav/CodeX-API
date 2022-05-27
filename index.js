@@ -15,25 +15,24 @@ app.use(cors());
 const supportedLanguages = ["java", "cpp", "py"];
 
 app.post("/", async (req, res) => {
-  const { language = "java", code, input = "" } = req.body;
-  if (code === undefined) res.status(500).send("No code specified to execute.");
-  if (!supportedLanguages.includes(language))
-    res
-      .status(500)
-      .send(
-        `Language ${language} is not supported. Please refer to docs to know the supported languages.`
-      );
-
-  const codeFile = createCodeFile(language, code);
   let output = "";
+  const { language = "java", code, input = "" } = req.body;
 
-  switch (language) {
-    case "java":
-      output = await executeJava(codeFile, input);
-      break;
-    case "py":
-      output = await executePython(codeFile, input);
-      break;
+  if (code === undefined) output = "No code specified to execute.";
+  if (!supportedLanguages.includes(language))
+    output = `Language ${language} is not supported. Please refer to docs to know the supported languages.`;
+
+  if (code !== undefined && supportedLanguages.includes(code)) {
+    const codeFile = createCodeFile(language, code);
+
+    switch (language) {
+      case "java":
+        output = await executeJava(codeFile, input);
+        break;
+      case "py":
+        output = await executePython(codeFile, input);
+        break;
+    }
   }
 
   res.send(output);
