@@ -1,5 +1,5 @@
 const { createCodeFile } = require("./createCodeFile");
-const { executeJava, executePython, executeCPP } = require("./executeCode");
+const { executeJava, executePython, executeCorCPP } = require("./executeCode");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -12,7 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Total languages supported
-const supportedLanguages = ["java", "cpp", "py"];
+const supportedLanguages = ["java", "cpp", "py", "c"];
+const compilerVersions = ["11.0.15", "11.2.0", "3.7.7", "11.2.0"];
 
 app.post("/", async (req, res) => {
   let output = "";
@@ -33,12 +34,26 @@ app.post("/", async (req, res) => {
         output = await executePython(codeFile, input);
         break;
       case "cpp":
-        output = await executeCPP(codeFile, input);
+        output = await executeCorCPP(codeFile, input);
+        break;
+      case "c":
+        output = await executeCorCPP(codeFile, input);
         break;
     }
   }
 
   res.send(output);
+});
+
+app.get("/list", (req, res) => {
+  let versionObj = [];
+  for (let i = 0; i < supportedLanguages.length; i++) {
+    versionObj.push({
+      language: supportedLanguages[i],
+      compilerVersion: compilerVersions[i],
+    });
+  }
+  res.send(versionObj);
 });
 
 app.listen(port);

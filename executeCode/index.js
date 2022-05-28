@@ -1,9 +1,9 @@
 const { executeJava } = require("./java.js");
 const { executePython } = require("./python.js");
-const { executeCPP } = require("./cpp.js");
+const { executeCorCPP } = require("./c_or_cpp.js");
 
 module.exports = {
   executeJava,
   executePython,
-  executeCPP,
+  executeCorCPP,
 };

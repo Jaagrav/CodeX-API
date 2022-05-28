@@ -28,6 +28,7 @@ Whichever language you might mention in the language field, it would be automati
 | Java | java |
 | Python | py |
 | C++ | cpp |
+| C | c |
 
 More coming very soon!
 
@@ -74,5 +75,30 @@ The output is a JSON object comprising only one parameter that is the output.
 ```
 
 > Since a lot of people had issues with executing the previous API from backend or serverless function, unlike the previous version of the API, this version of the API won't throw any Cross Origin errors so you can use this from the front end without any worries. Thank me later ;)
+
+#### `GET` /list
+
+This endpoint allows you to list all languages supported and their versions.
+
+```json
+[
+  {
+    "language": "java",
+    "compilerVersion": "11.0.15"
+  },
+  {
+    "language": "cpp",
+    "compilerVersion": "11.2.0"
+  },
+  {
+    "language": "py",
+    "compilerVersion": "3.7.7"
+  },
+  {
+    "language": "c",
+    "compilerVersion": "11.2.0"
+  }
+]
+```
 
 Happy hacking!

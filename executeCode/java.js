@@ -21,6 +21,10 @@ const runCode = async (codeFile, inputs) => {
         codeExec.stdin.end();
       }
 
+      codeExec.stdin.on("error", (...args) => {
+        console.log("stdin err", args);
+      });
+
       codeExec.stdout.on("data", (data) => {
         outputString += data.toString();
       });

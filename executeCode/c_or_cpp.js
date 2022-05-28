@@ -34,6 +34,10 @@ const runCode = async (codeFile, inputs) => {
             codeExec.stdin.end();
           }
 
+          codeExec.stdin.on("error", (...args) => {
+            console.log("stdin err", args);
+          });
+
           codeExec.stdout.on("data", (data) => {
             outputString += data.toString();
           });
@@ -58,7 +62,7 @@ const runCode = async (codeFile, inputs) => {
       success: true,
       timestamp: new Date(),
       output,
-      language: "cpp",
+      language: codeFile.split(".")[1],
       version: "11.2.0",
     };
   } catch (error) {
@@ -66,16 +70,16 @@ const runCode = async (codeFile, inputs) => {
       success: false,
       timestamp: new Date(),
       error,
-      language: "cpp",
+      language: codeFile.split(".")[1],
       version: "11.2.0",
     };
   }
 };
 
-const executeCPP = async (codeFile, inputs) => {
+const executeCorCPP = async (codeFile, inputs) => {
   return await runCode(codeFile, inputs);
 };
 
 module.exports = {
-  executeCPP,
+  executeCorCPP,
 };
