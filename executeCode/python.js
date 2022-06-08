@@ -8,6 +8,7 @@ const runCode = async (codeFile, inputs) => {
       const codeExec = spawn("python3", [
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
       ]);
+
       let outputString = "",
         errorString = "";
 
@@ -23,9 +24,11 @@ const runCode = async (codeFile, inputs) => {
       codeExec.stdout.on("data", (data) => {
         outputString += data.toString();
       });
+
       codeExec.stderr.on("data", (data) => {
         errorString += data.toString();
       });
+      
       codeExec.on("exit", () => {
         if (errorString) reject(errorString);
         resolve(outputString);

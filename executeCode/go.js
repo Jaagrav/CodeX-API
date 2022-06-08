@@ -1,19 +1,15 @@
-const { spawn, exec } = require("child_process"),
+const { spawn } = require("child_process"),
   path = require("path");
-
-// exec(`_SILENT_JAVA_OPTIONS="$_JAVA_OPTIONS"`);
-// exec(`unset _JAVA_OPTIONS`);
-// exec(`alias java='java "$_SILENT_JAVA_OPTIONS"'`);
 
 const runCode = async (codeFile, inputs) => {
   const timeout = 8;
   try {
     const output = await new Promise((resolve, reject) => {
-      const codeExec = spawn("java", [
-        "-Dfile.encoding=UTF-8",
+      const codeExec = spawn("go", [
+        "run",
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
       ]);
-
+      
       let outputString = "",
         errorString = "";
 
@@ -35,7 +31,7 @@ const runCode = async (codeFile, inputs) => {
       });
 
       codeExec.on("exit", () => {
-        if (errorString && !outputString) reject(errorString);
+        if (errorString) reject(errorString);
         resolve(outputString);
       });
 
@@ -50,24 +46,24 @@ const runCode = async (codeFile, inputs) => {
       success: true,
       timestamp: new Date(),
       output,
-      language: "java",
-      version: "11.0.15",
+      language: "go",
+      version: "1.18.3",
     };
   } catch (error) {
     return {
       success: false,
       timestamp: new Date(),
       error,
-      language: "java",
-      version: "11.0.15",
+      language: "go",
+      version: "1.18.3",
     };
   }
 };
 
-const executeJava = async (codeFile, inputs) => {
+const executeGo = async (codeFile, inputs) => {
   return await runCode(codeFile, inputs);
 };
 
 module.exports = {
-  executeJava,
+  executeGo
 };
