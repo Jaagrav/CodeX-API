@@ -1,5 +1,5 @@
 const { createCodeFile } = require("./createCodeFile");
-const { executeJava, executePython, executeCorCPP } = require("./executeCode");
+const { executeJava, executePython, executeCorCPP, executeJavaScript, executeGo, executeCsharp} = require("./executeCode");
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -12,8 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Total languages supported
-const supportedLanguages = ["java", "cpp", "py", "c"];
-const compilerVersions = ["11.0.15", "11.2.0", "3.7.7", "11.2.0"];
+const supportedLanguages = ["java", "cpp", "py", "c", "js", "go", "cs"];
+const compilerVersions = ["11.0.15", "11.2.0", "3.7.7", "11.2.0", "16.13.2", "1.18.3", "6.12.0.140"];
 
 app.post("/", async (req, res) => {
   let output = "";
@@ -38,6 +38,15 @@ app.post("/", async (req, res) => {
         break;
       case "c":
         output = await executeCorCPP(codeFile, input);
+        break;
+      case "js":
+        output = await executeJavaScript(codeFile, input);
+        break;
+      case "go":
+        output = await executeGo(codeFile, input);
+        break;
+      case "cs":
+        output = await executeCsharp(codeFile, input);
         break;
     }
   }
