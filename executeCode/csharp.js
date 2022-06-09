@@ -5,12 +5,11 @@ const runCode = async (codeFile, inputs) => {
   const timeout = 8;
   try {
     const output = await new Promise((resolve, reject) => {
-      const codeCompile = spawn("g++", [
-        "-o",
-        `${path.join(__dirname, `../classes/${codeFile.split(".")[0]}`)}.out`,
+      const codeCompile = spawn("mcs", [
+        `-out:${path.join(__dirname, `../classes/${codeFile.split(".")[0]}`)}.out`,
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
       ]);
-
+      
       let outputString = "",
         errorString = "";
 
@@ -21,13 +20,9 @@ const runCode = async (codeFile, inputs) => {
       codeCompile.on("exit", () => {
         if (errorString) reject(errorString);
         else {
-          const codeExec = spawn(
-            `${path.join(
-              __dirname,
-              `../classes/${codeFile.split(".")[0]}`
-            )}.out`,
-            []
-          );
+          const codeExec = spawn("mono", [
+          `${path.join(__dirname,`../classes/${codeFile.split(".")[0]}`)}.out`
+          ]);
 
           if (inputs) {
             codeExec.stdin.write(inputs);
@@ -65,7 +60,7 @@ const runCode = async (codeFile, inputs) => {
       timestamp: new Date(),
       output,
       language: codeFile.split(".")[1],
-      version: "11.2.0",
+      version: "6.12.0.140",
     };
   } catch (error) {
     return {
@@ -73,15 +68,15 @@ const runCode = async (codeFile, inputs) => {
       timestamp: new Date(),
       error,
       language: codeFile.split(".")[1],
-      version: "11.2.0",
+      version: "6.12.0.140",
     };
   }
 };
 
-const executeCorCPP = async (codeFile, inputs) => {
+const executeCsharp = async (codeFile, inputs) => {
   return await runCode(codeFile, inputs);
 };
 
 module.exports = {
-  executeCorCPP,
+  executeCsharp,
 };
