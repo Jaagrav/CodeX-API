@@ -29,6 +29,9 @@ Whichever language you might mention in the language field, it would be automati
 | Python | py |
 | C++ | cpp |
 | C | c |
+| GoLang | go |
+| C# | cs |
+| NodeJS | js |
 
 More coming very soon!
 

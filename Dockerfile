@@ -1,4 +1,6 @@
-FROM ubuntu:latest
+FROM ubuntu:18.04
+
+RUN dpkg --configure -a
 
 ENV PYTHON_VERSION 3.7.7
 ENV PYTHON_PIP_VERSION 20.1
