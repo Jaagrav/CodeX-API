@@ -9,7 +9,7 @@ const runCode = async (codeFile, inputs) => {
         "run",
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
       ]);
-
+      
       let outputString = "",
         errorString = "";
 
@@ -65,5 +65,5 @@ const executeGo = async (codeFile, inputs) => {
 };
 
 module.exports = {
-  executeGo,
+  executeGo
 };
