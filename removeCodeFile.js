@@ -3,7 +3,7 @@ const fs = require("fs"),
 
 const removeCodeFile = (uuid, lang) => {
   const codeFile = path.join(__dirname, `codes/${uuid}.${lang}`),
-    classFile = path.join(__dirname, `classes/${uuid}.out`);
+    outputFile = path.join(__dirname, `classes/${uuid}.out`);
 
   try {
     fs.unlinkSync(codeFile);
@@ -13,7 +13,7 @@ const removeCodeFile = (uuid, lang) => {
   }
 
   try {
-    fs.unlinkSync(classFile);
+    fs.unlinkSync(outputFile);
     //file removed
   } catch (err) {
     // console.error(err);
