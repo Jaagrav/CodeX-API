@@ -6,13 +6,10 @@ const runCode = async (codeFile, inputs) => {
   try {
     const output = await new Promise((resolve, reject) => {
       const codeCompile = spawn("mcs", [
-        `-out:${path.join(
-          __dirname,
-          `../classes/${codeFile.split(".")[0]}`
-        )}.out`,
+        `-out:${path.join(__dirname, `../classes/${codeFile.split(".")[0]}`)}.out`,
         `${path.join(__dirname, `../codes/${codeFile}`)}`,
       ]);
-
+      
       let outputString = "",
         errorString = "";
 
@@ -24,10 +21,7 @@ const runCode = async (codeFile, inputs) => {
         if (errorString) reject(errorString);
         else {
           const codeExec = spawn("mono", [
-            `${path.join(
-              __dirname,
-              `../classes/${codeFile.split(".")[0]}`
-            )}.out`,
+          `${path.join(__dirname,`../classes/${codeFile.split(".")[0]}`)}.out`
           ]);
 
           if (inputs) {
@@ -42,7 +36,7 @@ const runCode = async (codeFile, inputs) => {
           codeExec.stdout.on("data", (data) => {
             outputString += data.toString();
           });
-
+          
           codeExec.stderr.on("data", (data) => {
             errorString += data.toString();
           });
