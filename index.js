@@ -13,6 +13,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 3000;
+const wsPort = process.env.WSPORT || 8889;
 const cors = require("cors"); //use this
 
 app.use(bodyParser.json());
@@ -31,9 +32,28 @@ const compilerVersions = [
   "6.12.0.140",
 ];
 
+const { WebSocketServer } = require('ws');
+const wsClients = [];
+let clientIndex = 0;
+
+const wss = new WebSocketServer({ port: wsPort });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function message(data) {
+    console.log('received: %s', data);
+  });
+  const id = clientIndex++;
+  ws.send(JSON.stringify({ type: 'init', message: id}));
+  wsClients[id] = ws;
+  ws.on('close', function close() {
+    wsClients[id] = null;
+    console.log(`closed: ${id}`);
+  });
+});
+
 app.post("/", async (req, res) => {
   let output = "";
-  const { language = "java", code, input = "", timeout } = req.body;
+  const { language = "java", code, input = "", timeout, wsID } = req.body;
 
   if (code === undefined || code.trim() === "")
     output = "No code specified to execute.";
@@ -45,27 +65,29 @@ app.post("/", async (req, res) => {
 
     console.log(codeFile, code, input);
 
+    const ws = wsClients[wsID];
+
     switch (language) {
       case "java":
-        output = await executeJava(codeFile, input, timeout);
+        output = await executeJava(codeFile, input, timeout, ws);
         break;
       case "py":
-        output = await executePython(codeFile, input, timeout);
+        output = await executePython(codeFile, input, timeout, ws);
         break;
       case "cpp":
-        output = await executeCorCPP(codeFile, input, timeout);
+        output = await executeCorCPP(codeFile, input, timeout, ws);
         break;
       case "c":
-        output = await executeCorCPP(codeFile, input, timeout);
+        output = await executeCorCPP(codeFile, input, timeout, ws);
         break;
       case "js":
-        output = await executeJavaScript(codeFile, input, timeout);
+        output = await executeJavaScript(codeFile, input, timeout, ws);
         break;
       case "go":
-        output = await executeGo(codeFile, input, timeout);
+        output = await executeGo(codeFile, input, timeout, ws);
         break;
       case "cs":
-        output = await executeCsharp(codeFile, input, timeout);
+        output = await executeCsharp(codeFile, input, timeout, ws);
         break;
     }
 

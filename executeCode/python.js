@@ -1,4 +1,4 @@
-const executePython = async (codeFile, inputs, timeout = 8) => {
+const executePython = async (codeFile, inputs, timeout = 8, ws) => {
   const runCode = require('./run_code');
   return await runCode(codeFile, inputs, {
     command: 'python3',
@@ -7,6 +7,7 @@ const executePython = async (codeFile, inputs, timeout = 8) => {
     language: 'py',
     version: '3.10.4',
     needCompile: false,
+    ws,
   });
 };
 

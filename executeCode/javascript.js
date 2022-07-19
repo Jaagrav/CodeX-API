@@ -1,4 +1,4 @@
-const executeJavaScript = async (codeFile, inputs, timeout = 8) => {
+const executeJavaScript = async (codeFile, inputs, timeout = 8, ws) => {
   const runCode = require('./run_code');
   return await runCode(codeFile, inputs, {
     command: 'node',
@@ -7,6 +7,7 @@ const executeJavaScript = async (codeFile, inputs, timeout = 8) => {
     language: 'js',
     version: '16.13.2',
     needCompile: false,
+    ws,
   });
 };
 

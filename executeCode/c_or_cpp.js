@@ -1,6 +1,6 @@
 const path = require("path");
 
-const executeCorCPP = async (codeFile, inputs, timeout = 8) => {
+const executeCorCPP = async (codeFile, inputs, timeout = 8, ws) => {
   const runCode = require('./run_code');
   return await runCode(codeFile, inputs, {
     command: 'g++',
@@ -12,6 +12,7 @@ const executeCorCPP = async (codeFile, inputs, timeout = 8) => {
     language: codeFile.split(".")[1],
     version: '11.2.0',
     needCompile: true,
+    ws,
   });
 };
 

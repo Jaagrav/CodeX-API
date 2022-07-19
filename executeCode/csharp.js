@@ -1,6 +1,6 @@
 const path = require("path");
 
-const executeCsharp = async (codeFile, inputs, timeout = 8) => {
+const executeCsharp = async (codeFile, inputs, timeout = 8, ws) => {
   const runCode = require('./run_code');
   return await runCode(codeFile, inputs, {
     command: 'mcs',
@@ -15,6 +15,7 @@ const executeCsharp = async (codeFile, inputs, timeout = 8) => {
     version: '11.2.0',
     needCompile: true,
     runCommand: 'mono',
+    ws,
   });
 };
 

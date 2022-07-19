@@ -1,4 +1,4 @@
-const executeJava = async (codeFile, inputs, timeout = 8) => {
+const executeJava = async (codeFile, inputs, timeout = 8, ws) => {
   const runCode = require('./run_code');
   return await runCode(codeFile, inputs, {
     command: 'java',
@@ -9,6 +9,7 @@ const executeJava = async (codeFile, inputs, timeout = 8) => {
     language: 'java',
     version: '11.0.15',
     needCompile: false,
+    ws,
   });
 };
 

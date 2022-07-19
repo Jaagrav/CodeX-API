@@ -1,16 +1,23 @@
 const { spawn } = require("child_process"),
   path = require("path");
 
-function execCommand(command, args, inputs, timeout = 8) {
+function execCommand(command, args, inputs, timeout = 8, ws) {
   return new Promise((resolve) => {
     const runCommand = spawn(command, args);
     let output = '',
-      error = '';
+      error = '',
+      timer;
+    
+    if(ws) {
+      ws.send(JSON.stringify({type: 'ready'}));
+    }
 
-    const timer = setTimeout(() => {
-      error = `Error: Timed Out. Your code took too long to execute, over ${timeout} seconds.`
-      runCommand.kill("SIGHUP");
-    }, timeout * 1000);
+    if(timeout >= 0) {
+      timer = setTimeout(() => {
+        error = `Error: Timed Out. Your code took too long to execute, over ${timeout} seconds.`
+        runCommand.kill("SIGHUP");
+      }, timeout * 1000);
+    }
 
     if(inputs) {
       if(typeof inputs === 'string') inputs = [inputs];
@@ -18,6 +25,15 @@ function execCommand(command, args, inputs, timeout = 8) {
         runCommand.stdin.write(`${input}\n`);
       });
       runCommand.stdin.end();
+    } else if(ws) {
+      ws.on('message', function message(data) {
+        data = JSON.parse(data);
+        if(data && data.type === 'stdin') {
+          const msg = data.message;
+          if(msg === '') runCommand.stdin.end();
+          else runCommand.stdin.write(`${msg}\n`);
+        }
+      });
     }
 
     runCommand.stdin.on('error', (...args) => {
@@ -25,27 +41,36 @@ function execCommand(command, args, inputs, timeout = 8) {
     });
 
     runCommand.stdout.on('data', (data) => {
-      output += data.toString();
+      const msg = data.toString();
+      output += msg;
+      if(ws) {
+        ws.send(JSON.stringify({type:'stdout', message: msg}));
+      }
     });
 
     runCommand.stderr.on('data', (data) => {
-      error += data.toString();
+      const msg = data.toString();
+      error += msg;
+      if(ws) {
+        ws.send(JSON.stringify({type:'stderr', message: msg}));
+      }
     });
 
     runCommand.on('exit', () => {
-      clearTimeout(timer);
+      if(timer != null) clearTimeout(timer);
       resolve({output, error});
     });
   });
 }
 
-module.exports = async (codeFile, inputs, {command, args = [], timeout = 8, language, version, needCompile, runCommand}) => {
+module.exports = async (codeFile, inputs, {command, args = [], timeout = 8, language, version, needCompile, runCommand, ws}) => {
   let result = await execCommand(command, [
       ...args,
       `${path.join(__dirname, `../codes/${codeFile}`)}`,
     ],
     needCompile?null:inputs,
-    timeout);
+    timeout,
+    needCompile?null:ws);
 
   if(needCompile) {
     if(runCommand) {
@@ -57,6 +82,7 @@ module.exports = async (codeFile, inputs, {command, args = [], timeout = 8, lang
         )}.out`],
         inputs,
         timeout,
+        ws,
       );
     } else {
       result = await execCommand(
@@ -67,6 +93,7 @@ module.exports = async (codeFile, inputs, {command, args = [], timeout = 8, lang
         [],
         inputs,
         timeout,
+        ws,
       );
     }
   }
