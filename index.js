@@ -13,7 +13,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 3000;
-var cors = require("cors"); //use this
+const cors = require("cors"); //use this
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,7 +33,7 @@ const compilerVersions = [
 
 app.post("/", async (req, res) => {
   let output = "";
-  const { language = "java", code, input = "" } = req.body;
+  const { language = "java", code, input = "", timeout } = req.body;
 
   if (code === undefined || code.trim() === "")
     output = "No code specified to execute.";
@@ -47,25 +47,25 @@ app.post("/", async (req, res) => {
 
     switch (language) {
       case "java":
-        output = await executeJava(codeFile, input);
+        output = await executeJava(codeFile, input, timeout);
         break;
       case "py":
-        output = await executePython(codeFile, input);
+        output = await executePython(codeFile, input, timeout);
         break;
       case "cpp":
-        output = await executeCorCPP(codeFile, input);
+        output = await executeCorCPP(codeFile, input, timeout);
         break;
       case "c":
-        output = await executeCorCPP(codeFile, input);
+        output = await executeCorCPP(codeFile, input, timeout);
         break;
       case "js":
-        output = await executeJavaScript(codeFile, input);
+        output = await executeJavaScript(codeFile, input, timeout);
         break;
       case "go":
-        output = await executeGo(codeFile, input);
+        output = await executeGo(codeFile, input, timeout);
         break;
       case "cs":
-        output = await executeCsharp(codeFile, input);
+        output = await executeCsharp(codeFile, input, timeout);
         break;
     }
 
