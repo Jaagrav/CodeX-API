@@ -47,7 +47,7 @@ module.exports = async (codeFile, inputs, {command, args = [], timeout = 8, lang
     needCompile?null:inputs,
     timeout);
 
-  if(needCompile) {
+  if(needCompile && !result.error) {
     if(runCommand) {
       result = await execCommand(
         runCommand,
