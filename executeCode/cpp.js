@@ -1,3 +1,4 @@
+
 const { spawn, exec } = require("child_process"),
   path = require("path");
 
@@ -78,10 +79,10 @@ const runCode = async (codeFile, inputs) => {
   }
 };
 
-const executeCorCPP = async (codeFile, inputs) => {
+const executeCPP = async (codeFile, inputs) => {
   return await runCode(codeFile, inputs);
 };
 
 module.exports = {
-  executeCorCPP,
+  executeCPP,
 };

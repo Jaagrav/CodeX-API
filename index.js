@@ -3,7 +3,8 @@ const { createCodeFile } = require("./createCodeFile"),
   {
     executeJava,
     executePython,
-    executeCorCPP,
+    executeC,
+    executeCPP,
     executeJavaScript,
     executeGo,
     executeCsharp,
@@ -25,7 +26,7 @@ const compilerVersions = [
   "11.0.15",
   "11.2.0",
   "3.7.7",
-  "11.2.0",
+  "11.2.0", // TODO: Set version to whatever version of gcc is used
   "16.13.2",
   "1.18.3",
   "6.12.0.140",
@@ -53,10 +54,10 @@ app.post("/", async (req, res) => {
         output = await executePython(codeFile, input);
         break;
       case "cpp":
-        output = await executeCorCPP(codeFile, input);
+        output = await executeCPP(codeFile, input);
         break;
       case "c":
-        output = await executeCorCPP(codeFile, input);
+        output = await executeC(codeFile, input);
         break;
       case "js":
         output = await executeJavaScript(codeFile, input);
