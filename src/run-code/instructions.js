@@ -6,7 +6,6 @@ const commandMap = (jobID, language) => {
             return {
                 executeCodeCommand: 'java',
                 executionArgs: [
-                    '-Dfile.encoding=UTF-8',
                     join(process.cwd(), `codes/${jobID}.java`)
                 ],
                 compilerInfoCommand: 'java --version'
