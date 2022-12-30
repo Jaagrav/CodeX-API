@@ -2,9 +2,9 @@
   "name": "codex-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node --optimize_for_size --max_old_space_size=2560 .",
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jaagrav Seal",
