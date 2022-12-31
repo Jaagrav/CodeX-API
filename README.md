@@ -1,6 +1,6 @@
 # CodeX API
 
-> This API is still in very early stages of development. So consider not using the API in production.
+> This API is still in very early stages of development. So consider not using the API in production since things might change in the future.
 
 ### Introducing the new CodeX API
 
@@ -38,20 +38,20 @@ More coming very soon!
 ### NodeJS Example to Execute API Call?
 
 ```js
-var axios = require("axios");
-var qs = require("qs");
+var axios = require('axios');
+var qs = require('qs');
 var data = qs.stringify({
-  code: "import java.util.Scanner;\npublic class MatSym {\n    public static void main(String[]args) {\n       Scanner in = new Scanner(System.in);\nSystem.out.println(in.nextLine());\nSystem.out.println(in.nextLine());\n    }\n}",
-  language: "java",
-  input: "Hello\nWorld",
+    'code': 'val = int(input("Enter your value: ")) + 5\nprint(val)',
+    'language': 'py',
+    'input': '7'
 });
 var config = {
-  method: "post",
-  url: "https://codex-api.herokuapp.com/",
-  headers: {
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  data: data,
+    method: 'post',
+    url: 'https://api.codex.jaagrav.in',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data : data
 };
 
 axios(config)
@@ -69,11 +69,12 @@ The output is a JSON object comprising only one parameter that is the output.
 
 ```json
 {
-  "success": true,
-  "timestamp": "2022-05-26T19:59:08.014Z",
-  "output": "Hello\nWorld\n",
-  "language": "java",
-  "version": "11.0.15"
+  "timeStamp": 1672439982964,
+  "status": 200,
+  "output": "Enter your value: 12\n",
+  "error": "",
+  "language": "py",
+  "info": "Python 3.6.9\n"
 }
 ```
 
@@ -84,24 +85,42 @@ The output is a JSON object comprising only one parameter that is the output.
 This endpoint allows you to list all languages supported and their versions.
 
 ```json
-[
-  {
-    "language": "java",
-    "compilerVersion": "11.0.15"
-  },
-  {
-    "language": "cpp",
-    "compilerVersion": "11.2.0"
-  },
-  {
-    "language": "py",
-    "compilerVersion": "3.7.7"
-  },
-  {
-    "language": "c",
-    "compilerVersion": "11.2.0"
-  }
-]
+{
+  "timeStamp": 1672440064864,
+  "status": 200,
+  "supportedLanguages": [
+    {
+      "language": "java",
+      "info": "openjdk 11.0.17 2022-10-18\nOpenJDK Runtime Environment (build 11.0.17+8-post-Ubuntu-1ubuntu218.04)\nOpenJDK 64-Bit Server VM (build 11.0.17+8-post-Ubuntu-1ubuntu218.04, mixed mode, sharing)\n"
+    },
+    {
+      "language": "cpp",
+      "info": "g++ (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    {
+      "language": "py",
+      "info": "Python 3.6.9\n"
+    },
+    {
+      "language": "c",
+      "info": "gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0\nCopyright (C) 2017 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n"
+    },
+    {
+      "language": "js",
+      "info": "v16.13.2\n"
+    },
+    {
+      "language": "go",
+      "info": "go version go1.10.4 linux/amd64\n"
+    },
+    {
+      "language": "cs",
+      "info": "Mono C# compiler version 4.6.2.0\n"
+    }
+  ]
+}
 ```
+
+> This API is deployed on a free instance on [render](https://render.com/) so shoutout to render for providing a platform that helped bringing back the CodeX API after a long down time. Since I am using a free tier, the API might be slow sometimes, so please be patient while I try to fund this project.
 
 Happy hacking!
