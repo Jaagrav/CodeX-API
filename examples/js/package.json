@@ -1,0 +1,19 @@
+{
+  "name": "codex-api-example",
+  "version": "1.0.0",
+  "description": "Node.js example for CodeX-API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/Jaagrav/CodeX-API"
+  },
+  "keywords": [
+    "codex",
+    "codex-api"
+  ],
+  "author": "amirhossein.najafizadeh21@gmail.com",
+  "license": "ISC"
+}
