@@ -2,7 +2,7 @@
 
 > This API is still in very early stages of development. So consider not using the API in production since things might change in the future.
 
-### Introducing the new CodeX API
+## Introducing the new CodeX API
 
 Here's how you can execute code in various languages on your own website for free (no, there's no fucking catch, it's literally free),
 
@@ -35,33 +35,10 @@ Whichever language you might mention in the language field, it would be automati
 
 More coming very soon!
 
-### NodeJS Example to Execute API Call?
+## Examples
 
-```js
-var axios = require('axios');
-var qs = require('qs');
-var data = qs.stringify({
-    'code': 'val = int(input("Enter your value: ")) + 5\nprint(val)',
-    'language': 'py',
-    'input': '7'
-});
-var config = {
-    method: 'post',
-    url: 'https://api.codex.jaagrav.in',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    data : data
-};
-
-axios(config)
-  .then(function (response) {
-    console.log(JSON.stringify(response.data));
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-```
+- [NodeJS](examples/js/index.js)
+- [Golang](examples/golang/main.go)
 
 ### Sample Output
 
