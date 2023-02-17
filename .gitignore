@@ -1,4 +1,14 @@
+# js
 node_modules/
 package-lock.json
+
+# ide
+.vscode/
+.idea
+
+# os
+.DS_Store
+
+# others
 codes/
 classes/
