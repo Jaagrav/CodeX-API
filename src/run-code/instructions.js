@@ -4,9 +4,13 @@ const commandMap = (jobID, language) => {
     switch (language) {
         case 'java':
             return {
+                compileCodeCommand: 'javac',
+                compilationArgs: [
+                    join(process.cwd(), `codes/${jobID}.java`)
+                ],
                 executeCodeCommand: 'java',
                 executionArgs: [
-                    join(process.cwd(), `codes/${jobID}.java`)
+                    join(process.cwd(), `codes/${jobID}`)
                 ],
                 compilerInfoCommand: 'java --version'
             };
