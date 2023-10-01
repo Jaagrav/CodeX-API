@@ -5,7 +5,9 @@ const {info} = require("./info")
 
 const {spawn} = require("child_process");
 
-async function runCode({language = "", code = "", input = "", timeout = 8}) {
+async function runCode({language = "", code = "", input = ""}) {
+    const timeout = 30;
+
     if (code === "")
         throw {
             status: 400,
