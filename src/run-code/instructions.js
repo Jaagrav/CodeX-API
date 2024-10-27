@@ -66,7 +66,7 @@ const commandMap = (jobID, language) => {
             return {
                 compileCodeCommand: 'mcs',
                 compilationArgs: [
-                    `-out:`${OUTPUTS_DIR}/${jobID}`.exe`,
+                    `-out:${OUTPUTS_DIR}/${jobID}.exe`,
                     `${CODES_DIR}/${jobID}.cs`,
                 ],
                 executeCodeCommand: 'mono',
