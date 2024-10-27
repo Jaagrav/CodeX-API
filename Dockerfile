@@ -23,9 +23,9 @@ RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
 RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
 ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
 
-# Create a non-root user and switch to it
-RUN useradd -m appuser
-USER appuser
+# Create a non-root user with a UID between 10000 and 20000
+RUN useradd -m -u 10001 appuser
+USER 10001
 
 # Copy application code and set up the working directory
 COPY --chown=appuser:appuser . /app
