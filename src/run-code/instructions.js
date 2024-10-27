@@ -1,12 +1,15 @@
 const {join} = require('path')
 
+const CODES_DIR = process.env.CODES_DIR || "/tmp/codes";
+const OUTPUTS_DIR = process.env.OUTPUTS_DIR || "/tmp/outputs";
+
 const commandMap = (jobID, language) => {
     switch (language) {
         case 'java':
             return {
                 executeCodeCommand: 'java',
                 executionArgs: [
-                    join(process.cwd(), `codes/${jobID}.java`)
+                    join(process.cwd(), `${CODES_DIR}/${jobID}.java`)
                 ],
                 compilerInfoCommand: 'java --version'
             };
@@ -14,9 +17,9 @@ const commandMap = (jobID, language) => {
             return {
                 compileCodeCommand: 'g++',
                 compilationArgs: [
-                    join(process.cwd(), `codes/${jobID}.cpp`),
+                    join(process.cwd(), `${CODES_DIR}/${jobID}.cpp`),
                     '-o',
-                    join(process.cwd(), `outputs/${jobID}.out`)
+                    join(process.cwd(), `${OUTPUTS_DIR}/${jobID}.out`)
                 ],
                 executeCodeCommand: join(process.cwd(), `outputs/${jobID}.out`),
                 outputExt: 'out',
@@ -26,7 +29,7 @@ const commandMap = (jobID, language) => {
             return {
                 executeCodeCommand: 'python3',
                 executionArgs: [
-                    join(process.cwd(), `codes/${jobID}.py`)
+                    join(process.cwd(), `${CODES_DIR}/${jobID}.py`)
                 ],
                 compilerInfoCommand: 'python3 --version'
             }
@@ -34,9 +37,9 @@ const commandMap = (jobID, language) => {
             return {
                 compileCodeCommand: 'gcc',
                 compilationArgs: [
-                    join(process.cwd(), `codes/${jobID}.c`),
+                    join(process.cwd(), `${CODES_DIR}/${jobID}.c`),
                     '-o',
-                    join(process.cwd(), `outputs/${jobID}.out`)
+                    join(process.cwd(), `${OUTPUTS_DIR}/${jobID}.out`)
                 ],
                 executeCodeCommand: join(process.cwd(), `outputs/${jobID}.out`),
                 outputExt: 'out',
@@ -46,7 +49,7 @@ const commandMap = (jobID, language) => {
             return {
                 executeCodeCommand: 'node',
                 executionArgs: [
-                    join(process.cwd(), `codes/${jobID}.js`)
+                    join(process.cwd(), `${CODES_DIR}/${jobID}.js`)
                 ],
                 compilerInfoCommand: 'node --version'
             }
@@ -55,7 +58,7 @@ const commandMap = (jobID, language) => {
                 executeCodeCommand: 'go',
                 executionArgs: [
                     'run',
-                    join(process.cwd(), `codes/${jobID}.go`)
+                    join(process.cwd(), `${CODES_DIR}/${jobID}.go`)
                 ],
                 compilerInfoCommand: 'go version'
             }
@@ -67,11 +70,11 @@ const commandMap = (jobID, language) => {
                         process.cwd(),
                         `outputs/${jobID}`
                     )}.exe`,
-                    `${join(process.cwd(), `codes/${jobID}.cs`)}`,
+                    `${join(process.cwd(), `${CODES_DIR}/${jobID}.cs`)}`,
                 ],
                 executeCodeCommand: 'mono',
                 executionArgs: [
-                    `${join(process.cwd(), `outputs/${jobID}`)}.exe`
+                    `${join(process.cwd(), `${OUTPUTS_DIR}/${jobID}`)}.exe`
                 ],
                 outputExt: 'exe',
                 compilerInfoCommand: 'mcs --version'
