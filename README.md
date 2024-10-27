@@ -1,5 +1,7 @@
 # CodeX API
 
+![CodeX](https://cronitor.io/badges/H2ppWF/production/F7bEkD7FFEXp0uypGbzlGEUtkzk.svg)
+
 > This API is still in very early stages of development. So consider not using the API in production since things might change in the future.
 
 ### Introducing the new CodeX API
