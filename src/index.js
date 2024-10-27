@@ -4,7 +4,7 @@ const {supportedLanguages} = require("./run-code/instructions");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const cors = require("cors");
 const {info} = require("./run-code/info");
 
