@@ -6,7 +6,7 @@ description: Service for code execution and supported language retrieval.
 type: REST
 
 endpoints:
-  - name: execute_code
+  - name: root
     type: REST
     service:
       basePath: /
@@ -14,7 +14,7 @@ endpoints:
     networkVisibilities:
       - Public
 
-  - name: get_supported_languages
+  - name: list
     type: REST
     service:
       basePath: /list
