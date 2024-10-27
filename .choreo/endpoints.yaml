@@ -5,8 +5,3 @@ endpoints:
     type: REST
     networkVisibility: Public
     context: /
-  - name: list
-    port: 3000
-    type: REST
-    networkVisibility: Public
-    context: /list
