@@ -1,27 +1,12 @@
-schemaVersion: 1.0
-name: codex-api
-version: 1.0.0
-displayName: CodeX API
-description: Service for code execution and supported language retrieval.
-type: REST
-
+version: 0.1
 endpoints:
   - name: root
+    port: 3000
     type: REST
-    service:
-      basePath: /
-      port: 3000
-    networkVisibilities:
-      - Public
-
+    networkVisibility: Public
+    context: /
   - name: list
+    port: 3000
     type: REST
-    service:
-      basePath: /list
-      port: 3000
-    networkVisibilities:
-      - Public
-      
-configuration:
-  auth:
-    type: NONE
+    networkVisibility: Public
+    context: /list
