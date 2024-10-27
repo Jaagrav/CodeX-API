@@ -2,7 +2,7 @@ schemaVersion: 1.0
 name: codex-api
 version: 1.0.0
 displayName: CodeX API Service
-description: Execute code in various programming languages and retrieve supported languages information.
+description: Execute code and retrieve supported languages information.
 type: REST
 
 endpoints:
