@@ -2,39 +2,22 @@ schemaVersion: 1.0
 name: codex-api
 version: 1.0.0
 displayName: CodeX API
-description: Service for executing code snippets and listing supported languages.
+description: Service for code execution and supported language retrieval.
 type: REST
 
 endpoints:
   - name: execute_code
     type: REST
-    basePath: /
     service:
+      basePath: /
       port: 3000
-    networkVisibilities: 
+    networkVisibilities:
       - Public
 
   - name: get_supported_languages
     type: REST
-    basePath: /list
     service:
+      basePath: /list
       port: 3000
-    networkVisibilities: 
+    networkVisibilities:
       - Public
-
-configuration:
-  auth:
-    type: NONE
-
-execution:
-  steps:
-    - name: execute_code
-      action:
-        type: HTTP
-        url: http://localhost:3000/
-        method: POST
-    - name: get_supported_languages
-      action:
-        type: HTTP
-        url: http://localhost:3000/list
-        method: GET
