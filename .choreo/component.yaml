@@ -1,59 +1,30 @@
 schemaVersion: 1.0
 name: codex-api
 version: 1.0.0
-displayName: CodeX API Service
-description: Execute code and retrieve supported languages information.
+displayName: CodeX API
+description: Service for executing code snippets and listing supported languages.
 type: REST
 
 endpoints:
   - name: execute_code
     type: REST
+    basePath: /
     service:
       port: 3000
-    basePath: /
-    visibility: PUBLIC
+    networkVisibilities: 
+      - Public
 
   - name: get_supported_languages
     type: REST
+    basePath: /list
     service:
       port: 3000
-    basePath: /list
-    visibility: PUBLIC
+    networkVisibilities: 
+      - Public
 
 configuration:
   auth:
     type: NONE
-
-  inputs:
-    properties:
-      - name: language
-        type: string
-        required: true
-      - name: code
-        type: string
-        required: true
-      - name: input
-        type: string
-        required: false
-      - name: timeout
-        type: integer
-        default: 30
-
-  outputs:
-    properties:
-      - name: output
-        type: string
-      - name: error
-        type: string
-      - name: supported_languages
-        type: array
-        items:
-          type: object
-          properties:
-            - name: language
-              type: string
-            - name: info
-              type: string
 
 execution:
   steps:
@@ -62,17 +33,8 @@ execution:
         type: HTTP
         url: http://localhost:3000/
         method: POST
-      response:
-        - when: "200"
-          set:
-            outputs.output: "$.output"
-            outputs.error: "$.error"
     - name: get_supported_languages
       action:
         type: HTTP
         url: http://localhost:3000/list
         method: GET
-      response:
-        - when: "200"
-          set:
-            outputs.supported_languages: "$.supportedLanguages"
