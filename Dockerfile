@@ -26,7 +26,7 @@ WORKDIR /app
 RUN npm install
 
 # Expose the application port
-EXPOSE 3000
+EXPOSE 8080
 
 # Start the application
 CMD ["npm", "start"]
