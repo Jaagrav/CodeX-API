@@ -2,93 +2,70 @@ schemaVersion: 1.0
 name: CodeX API
 version: 1.0.0
 displayName: CodeX API Service
-description: Execute code in various programming languages and retrieve supported languages with additional information.
+description: Execute code in various programming languages and retrieve supported languages information.
 type: REST
-categories:
-  - Code Execution
-  - Programming Languages
-  - Development Tools
+
+endpoints:
+  - name: executeCode
+    type: http
+    port: 3000
+    basePath: /
+    visibility: PUBLIC
+
+  - name: getSupportedLanguages
+    type: http
+    port: 3000
+    basePath: /list
+    visibility: PUBLIC
 
 configuration:
   auth:
     type: NONE
-    description: No authentication required for local setup.
 
   inputs:
     properties:
       - name: language
-        displayName: Programming Language
-        description: The programming language for code execution.
         type: string
         required: true
       - name: code
-        displayName: Code
-        description: The code to execute.
         type: string
         required: true
       - name: input
-        displayName: Input
-        description: Input data for the code execution, if applicable.
         type: string
         required: false
       - name: timeout
-        displayName: Timeout
-        description: Maximum execution time in seconds for code execution.
         type: integer
         default: 30
 
   outputs:
     properties:
       - name: output
-        displayName: Execution Output
-        description: Output of the executed code, if successful.
         type: string
       - name: error
-        displayName: Execution Error
-        description: Error details if the code execution fails.
         type: string
       - name: supported_languages
-        displayName: Supported Languages
-        description: List of supported languages with additional information.
         type: array
         items:
           type: object
           properties:
             - name: language
-              displayName: Language
-              description: Name of the programming language.
               type: string
             - name: info
-              displayName: Information
-              description: Version and additional information for the language.
               type: string
 
 execution:
   steps:
     - name: executeCode
-      description: "Executes provided code in the specified language."
       action:
         type: HTTP
         url: http://localhost:3000/
         method: POST
-        headers:
-          Content-Type: application/json
-        requestBody:
-          language: ${configuration.inputs.language}
-          code: ${configuration.inputs.code}
-          input: ${configuration.inputs.input}
       response:
         - when: "200"
           set:
             outputs.output: "$.output"
             outputs.error: "$.error"
-        - when: "default"
-          error:
-            message: "Failed to execute code"
-            details: "$.error"
-
     - name: getSupportedLanguages
-      description: "Retrieves the list of supported programming languages with additional information."
       action:
         type: HTTP
         url: http://localhost:3000/list
@@ -97,7 +74,3 @@ execution:
         - when: "200"
           set:
             outputs.supported_languages: "$.supportedLanguages"
-        - when: "default"
-          error:
-            message: "Failed to retrieve supported languages"
-            details: "$.error"
