@@ -21,3 +21,7 @@ endpoints:
       port: 3000
     networkVisibilities:
       - Public
+      
+configuration:
+  auth:
+    type: NONE
