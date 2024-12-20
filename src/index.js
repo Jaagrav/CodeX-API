@@ -44,4 +44,4 @@ app.get('/list', async (req, res) => {
     sendResponse(res, 200, {supportedLanguages: body})
 })
 
-app.listen(port);
+app.listen(port,'0.0.0.0');
