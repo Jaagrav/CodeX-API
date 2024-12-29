@@ -7,5 +7,5 @@ In order to setup this project locally on your machine, you can either run the d
 ```bash
 docker build --no-cache -t codex-api .
 
-docker run -p 3000:3000 codex-api
+docker run -p 8080:8080 codex-api
 ```
