@@ -1,11 +1,14 @@
-const {commandMap, supportedLanguages} = require("./instructions")
-const {createCodeFile} = require("../file-system/createCodeFile")
-const {removeCodeFile} = require("../file-system/removeCodeFile")
-const {info} = require("./info")
+const { commandMap, supportedLanguages } = require("./instructions")
+const { createCodeFile } = require("../file-system/createCodeFile")
+const { removeCodeFile } = require("../file-system/removeCodeFile")
+const { info } = require("./info")
 
-const {spawn} = require("child_process");
+const { spawn } = require("child_process");
 
-async function runCode({language = "", code = "", input = ""}) {
+// this id is used to run the code as a non-root user
+const ID = 1000;
+
+async function runCode({ language = "", code = "", input = "" }) {
     const timeout = 30;
 
     if (code === "")
@@ -20,8 +23,8 @@ async function runCode({language = "", code = "", input = ""}) {
             error: `Please enter a valid language. Check documentation for more details: https://github.com/Jaagrav/CodeX-API#readme. The languages currently supported are: ${supportedLanguages.join(', ')}.`
         }
 
-    const {jobID} = await createCodeFile(language, code);
-    const {compileCodeCommand, compilationArgs, executeCodeCommand, executionArgs, outputExt} = commandMap(jobID, language);
+    const { jobID } = await createCodeFile(language, code);
+    const { compileCodeCommand, compilationArgs, executeCodeCommand, executionArgs, outputExt } = commandMap(jobID, language);
 
     if (compileCodeCommand) {
         await new Promise((resolve, reject) => {
@@ -41,7 +44,10 @@ async function runCode({language = "", code = "", input = ""}) {
     }
 
     const result = await new Promise((resolve, reject) => {
-        const executeCode = spawn(executeCodeCommand, executionArgs || []);
+        const executeCode = spawn(executeCodeCommand, executionArgs || [], {
+            uid: ID,
+            gid: ID,
+        });
         let output = "", error = "";
 
         const timer = setTimeout(async () => {
@@ -76,7 +82,7 @@ async function runCode({language = "", code = "", input = ""}) {
 
         executeCode.on('exit', (err) => {
             clearTimeout(timer);
-            resolve({output, error});
+            resolve({ output, error });
         });
     })
 
@@ -89,4 +95,4 @@ async function runCode({language = "", code = "", input = ""}) {
     }
 }
 
-module.exports = {runCode}
+module.exports = { runCode }
