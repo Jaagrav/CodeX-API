@@ -76,9 +76,21 @@ const commandMap = (jobID, language) => {
                 outputExt: 'exe',
                 compilerInfoCommand: 'mcs --version'
             }
+        case 'pas':
+            return {
+                compileCodeCommand: 'fpc',
+                compilationArgs: [
+                    `${CODES_DIR}/${jobID}.pas`,
+                    `-FE${OUTPUTS_DIR}`,  
+                    `-o${jobID}`          
+                ],
+                executeCodeCommand: `${OUTPUTS_DIR}/${jobID}`, 
+                outputExt: '', 
+                compilerInfoCommand: 'fpc -iV'
+            };
     }
 }
 
-const supportedLanguages = ['java', 'cpp', 'py', 'c', 'js', 'go', 'cs'];
+const supportedLanguages = ['java', 'cpp', 'py', 'c', 'js', 'go', 'cs','pas'];
 
 module.exports = {commandMap, supportedLanguages}
