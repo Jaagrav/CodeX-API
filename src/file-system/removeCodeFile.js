@@ -21,6 +21,17 @@ const removeCodeFile = async (uuid, lang, outputExt) => {
             console.error(`Failed to delete output file: ${outputFile}`, err);
         }
     }
+
+    if (lang === 'pas') {
+        const objectFile = join(OUTPUTS_DIR, `${uuid}.o`);
+        try {
+            if (require("fs").existsSync(objectFile)) {
+                unlinkSync(objectFile);
+            }
+        } catch (err) {
+            console.error(`Failed to delete object file: ${objectFile}`, err);
+        }
+    }
 };
 
 module.exports = {

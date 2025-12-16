@@ -1,4 +1,4 @@
-const {join} = require('path')
+const { join } = require('path')
 
 const CODES_DIR = process.env.CODES_DIR || "/tmp/codes";
 const OUTPUTS_DIR = process.env.OUTPUTS_DIR || "/tmp/outputs";
@@ -81,16 +81,16 @@ const commandMap = (jobID, language) => {
                 compileCodeCommand: 'fpc',
                 compilationArgs: [
                     `${CODES_DIR}/${jobID}.pas`,
-                    `-FE${OUTPUTS_DIR}`,  
-                    `-o${jobID}`          
+                    `-FE${OUTPUTS_DIR}`,
+                    `-o${jobID}.out`
                 ],
-                executeCodeCommand: `${OUTPUTS_DIR}/${jobID}`, 
-                outputExt: '', 
+                executeCodeCommand: `${OUTPUTS_DIR}/${jobID}.out`,
+                outputExt: 'out',
                 compilerInfoCommand: 'fpc -iV'
             };
     }
 }
 
-const supportedLanguages = ['java', 'cpp', 'py', 'c', 'js', 'go', 'cs','pas'];
+const supportedLanguages = ['java', 'cpp', 'py', 'c', 'js', 'go', 'cs', 'pas'];
 
-module.exports = {commandMap, supportedLanguages}
+module.exports = { commandMap, supportedLanguages }
