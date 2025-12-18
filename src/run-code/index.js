@@ -26,10 +26,19 @@ async function runCode({ language = "", code = "", input = "" }) {
     if (compileCodeCommand) {
         await new Promise((resolve, reject) => {
             const compileCode = spawn(compileCodeCommand, compilationArgs || [])
-            let stderr = "";
+            compileCode.stderr.on('data', (error) => {
+                const msg = error.toString();
 
-            compileCode.stdout.on('data', (data) => {
-                stderr += data.toString();
+                if (language === 'pas' && msg.includes("link.res contains output sections")) {
+                    return;
+                }
+
+                reject({
+                    status: 200,
+                    output: '',
+                    error: error.toString(),
+                    language
+                })
             });
 
             compileCode.stderr.on('data', (data) => {
