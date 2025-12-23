@@ -23,42 +23,44 @@ async function runCode({ language = "", code = "", input = "" }) {
     const { jobID } = await createCodeFile(language, code);
     const { compileCodeCommand, compilationArgs, executeCodeCommand, executionArgs, outputExt } = commandMap(jobID, language);
 
-    if (compileCodeCommand) {
-        await new Promise((resolve, reject) => {
-            const compileCode = spawn(compileCodeCommand, compilationArgs || [])
-            compileCode.stderr.on('data', (error) => {
-                const msg = error.toString();
+if (compileCodeCommand) {
+    await new Promise((resolve, reject) => {
+        const compileCode = spawn(compileCodeCommand, compilationArgs || [])
+        let compileError = "";
+        
+        compileCode.stderr.on('data', (data) => {
+            const msg = data.toString();
+            compileError += msg;  // Accumulate error output
 
-                if (language === 'pas' && msg.includes("link.res contains output sections")) {
-                    return;
-                }
+            if (language === 'pas' && msg.includes("link.res contains output sections")) {
+                return;
+            }
 
+            // Only reject on critical errors immediately
+            if (msg.includes("error:") || msg.includes("Error:")) {
                 reject({
                     status: 200,
                     output: '',
-                    error: error.toString(),
+                    error: compileError,
                     language
                 })
-            });
+            }
+        });
 
-            compileCode.stderr.on('data', (data) => {
-                stderr += data.toString();
-            });
-
-            compileCode.on('close', (code) => {
-                if (code !== 0) {
-                    reject({
-                        status: 200,
-                        output: '',
-                        error: stderr,
-                        language
-                    })
-                } else {
-                    resolve()
-                }
-            })
+        compileCode.on('close', (code) => {
+            if (code !== 0) {
+                reject({
+                    status: 200,
+                    output: '',
+                    error: compileError,
+                    language
+                })
+            } else {
+                resolve()
+            }
         })
-    }
+    })
+}
 
     const result = await new Promise((resolve, reject) => {
         const executeCode = spawn(executeCodeCommand, executionArgs || []);
