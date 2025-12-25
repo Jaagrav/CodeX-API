@@ -34,6 +34,7 @@ Whichever language you might mention in the language field, it would be automati
 | GoLang | go |
 | C# | cs |
 | NodeJS | js |
+| Pascal | pas |
 
 More coming very soon!
 
@@ -118,6 +119,10 @@ This endpoint allows you to list all languages supported and their versions.
     {
       "language": "cs",
       "info": "Mono C# compiler version 4.6.2.0\n"
+    }
+    {
+      "language": "pas",
+      "info": "fpc"
     }
   ]
 }
